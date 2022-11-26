@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CodeCommit Repository
+
+Resources:
+  CodeCommitRepository:
+    Type: AWS::CodeCommit::Repository
+    Properties: 
+      RepositoryDescription: Source codes to use in Camera Control PC in client factory.
+      RepositoryName: playground-aws-cicd
+
+  CodeCommitMirroringUser:
+    Type: AWS::IAM::User
+    Properties: 
+      Policies:
+        - PolicyName: CodeCommitMirroringPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 'codecommit:GitPush'
+                Resource: 
+                  - !GetAtt CodeCommitRepository.Arn
+      UserName: CodeCommitMirroringUser
