@@ -2,8 +2,9 @@ version: 0.2
 phases:
   build:
     commands:
-      - aws deploy push --application-name playground-aws-cicd --s3-location s3://test-cicd-artifact/artifact.zip --source scripts
+      - echo "Running build"
 artifacts:
   files:
     - '**/*'
+  name: test-artifact-$(date +%Y-%m-%d-%H-%M-%S)
   base-directory: scripts
