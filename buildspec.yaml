@@ -3,8 +3,8 @@ phases:
   build:
     commands:
       - echo "Running build"
+      - zip -r scripts.zip ./scripts
 artifacts:
   files:
-    - '**/*'
+    - scripts.zip
   name: test-artifact-$(date +%Y-%m-%d-%H-%M-%S)
-  base-directory: scripts
