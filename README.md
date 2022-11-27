@@ -1,5 +1,20 @@
 # playground-aws-cicd
-AWS Code シリーズを使った CICD 環境を構築してみる
+AWS Code シリーズを使った CICD 環境を構築してみる．
+
+以下の通り動かす．
+- GitHub に Push
+- CodeCommit へ Mirroring
+- CodeBuild で必要なファイルのみを zip 化して S3 へあげる
+- CodeDeploy でオンプレサーバに 上記の Zip ファイルをダウンロードさせ，認証情報を含む設定ファイルを Parameter Store から取得させる
+
+まだやっていないこと
+- CodeBuild で自動テスト
+- CodeDeploy で自動テスト？
+
+# Requirements
+- github cli
+- aws cli
+- AWS の作業アカウントへの AdministratorAccess 権限
 
 # Usage
 ## Mirroring 設定
@@ -13,7 +28,7 @@ AWS Code シリーズを使った CICD 環境を構築してみる
     $ ssh-keygen -t rsa -b 4096
     ```
 
-    NOTE: 2022/11/26 時点では，AWS は RSA にしか対応指定なさそう． 
+    NOTE: 2022/11/26 時点では，AWS は RSA にしか対応指定なさそう．
     https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html?icmpid=docs_iam_console#ssh-keys-code-commit
 
 3. 公開鍵を AWS に登録
@@ -24,8 +39,7 @@ AWS Code シリーズを使った CICD 環境を構築してみる
 4. 秘密鍵と AWS 上で生成された 秘密鍵 ID を GitHub に登録
     ```
     $ gh secret set -r onion/playground-aws-cicd CODECOMMIT_SSH_PRIVATE_KEY --body "$(cat <先ほど作成した秘密鍵のパス>)"
-    $ gh secret set -r onion/playground-aws-cicd CODECOMMIT_SSH_PRIVATE_KEY_ID --body "<公開鍵を AWS に登録した際に返ってきた `SSHPublicKeyBody`>" 
+    $ gh secret set -r onion/playground-aws-cicd CODECOMMIT_SSH_PRIVATE_KEY_ID --body "<公開鍵を AWS に登録した際に返ってきた `SSHPublicKeyBody`>"
     ```
-
 
 ここまでの設定で， GitHub に push した際に， GitHub Actions で作成した AWS CodeCommit 上の repository にも同内容が push されるようになる．
