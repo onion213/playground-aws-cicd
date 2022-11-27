@@ -4,7 +4,7 @@ phases:
     commands:
       - apt update
       - apt upgrade -y
-      - apt install zip
+      - apt install -y zip
       - echo "Running build"
       - zip -r scripts.zip ./scripts
 artifacts:
