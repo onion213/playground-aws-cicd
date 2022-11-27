@@ -2,6 +2,9 @@ version: 0.2
 phases:
   build:
     commands:
+      - apt update
+      - apt upgrade -y
+      - apt install zip
       - echo "Running build"
       - zip -r scripts.zip ./scripts
 artifacts:
